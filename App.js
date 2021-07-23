@@ -1,11 +1,14 @@
+// TODO: Task 5. Update Import Statements
+// 5A) change Line 1 to import React, {useEffect, useState} from "react";
+// 5B) add "FlatList, Image" into Line 2
 import React, {useEffect, useState} from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList, Pressable, Alert } from "react-native";
+import { StyleSheet, Image, Text, View, FlatList } from "react-native";
 
 const ListItem = (props) => {
     return (
-        <View>
-            <Text onPress={() => Alert.alert(`The Capital of ${props.item.name} is ${props.item.capital}`)} style={[styles.text, {color: '#FAFAFA'}]}>{props.item.name},{props.item.capital}</Text>
+        <View style={{ flexDirection: "row" }}>
+            <Image source={{ uri: 'https://cdn.logo.com/hotlink-ok/enterprise/eid_422203f0-477b-492b-9847-689feab1452a/logo-dark-2020.png' }} style={styles.flag} />
+            <Text style={[styles.text, {color: '#FAFAFA'}]}>{props.item.name}, {props.item.capital}</Text>
         </View>
     );
 };
@@ -17,34 +20,40 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    // TODO: 2. Add custom styles
-    header: {
+    // TODO: Task 2. Add Custom Styles
+    dummyText: {
         fontSize: 24,
         fontWeight: "bold",
     },
-    // TODO: 5. Add List styles
     listContainer: {
         padding: 30,
         backgroundColor: '#483D8B',
         color: '#FAFAFA',
     },
+    flag: {
+        width: 100,
+        height: 100,
+    },
     text: {
         margin: 10,
         fontSize: 20,
+    },
+    level: {
+        color: '#FF0000',
     }
 });
 
 export default function App() {
 
-    {/* TODO: 3. Prepare Countries Data */}
+    {/* TODO: Task 3. Prepare Countries Data */}
     // array data
-    const countriesArray = [{"name":"Afghanistan"},{"name":"Åland Islands"},{"name":"Albania"},{"name":"Algeria"}]
+    const countriesArray = [{"name":"Hong Kong"},{"name":"Taiwan"},{"name":"Korea"},{"name":"Japan"}];
     // api data
     const [countriesData, setCountriesData] = useState([]);
 
-    // TODO: 6. Use Fetch API get countries data
+    // TODO: Task 6. Use Fetch API get countries data
     function fetchCountriesData() {
-        fetch('https://restcountries.eu/rest/v2/region/asia?fields=name;capital;numericCode')
+        fetch('https://restcountries.eu/rest/v2/region/asia?fields=name;capital;numericCode;flag')
             .then((response) => response.json())
             .then((json) => setCountriesData(json))
             .catch((error) => console.error(error));
@@ -57,20 +66,23 @@ export default function App() {
     function _keyExtractor(item, index) {
         return item.numericCode;
     }
+    // END of Task 6
 
     return (
         <View style={styles.container}>
-            <StatusBar style="auto" />
-            <Text>Open up App.js to start working on your app!</Text>
-            {/* TODO: 1. Add Text Element */}
-            <Text style={styles.header}>Hello World!!!</Text>
+            <Text style={styles.level}>Edit 1: Add Text Element</Text>
+            {/* TODO: Task 1. Replace Default Text Element */}
+            <Text style={styles.dummyText}>Hello World!!!</Text>
 
-            {/* TODO: 4. Add List of Countries */}
+            {/* TODO: Task 4. Add List of Countries */}
             {/* version 1. simple item, data from static array */}
+            <Text style={styles.level}>Edit 2: Add Simple List</Text>
             <FlatList
                 data={countriesArray}
                 renderItem={({item}) => <Text style={styles.text}>{item.name}</Text>} />
+            {/* TODO: Task 7. Add the Custom List of Countries */}
             {/* version 2. standalone item, data from api */}
+            <Text style={styles.level}>Edit 3: Add Complex List</Text>
             <FlatList
                 data={countriesData}
                 contentContainerStyle={styles.listContainer}
